@@ -25,7 +25,7 @@
         });
 
         document.getElementById('submit').addEventListener('click',(e)=>{
-          e.preventDefault()
+          e.preventDefault();
           console.log(e);
           // получаем данные формы
           let registerForm = document.forms['registerForm']
@@ -34,9 +34,9 @@
           let users=registerForm.elements['users'].value
           // сериализуем данные в json
           let user = JSON.stringify({
-            'userName': 'userName',
-            'message': 'message',
-            'users': 'users',
+            userName: userName,
+            message: message,
+            users: users,
           })
           let request = new XMLHttpRequest()
           // посылаем запрос на адрес "/user"
@@ -50,7 +50,7 @@
             // получаем и парсим ответ сервера
             let receivedUser = JSON.parse(request.response);
             console.log(receivedUser);
-            console.log(receivedUser.userName,'-',receivedUser.message
+            console.log(receivedUser.userName,'-',receivedUser.message,' - ',receivedUser.users
           ) // смотрим ответ сервера
         })
         request.send(user);

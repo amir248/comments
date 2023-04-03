@@ -30,16 +30,20 @@ const express = require('express');
 const app = express();
 // создаем парсер для данных в формате json
 const jsonParser = express.json();
-
+const port=3000;
 app.post('/', jsonParser, function (request, response) {
   // console.log(request.body);
   if (!request.body) return response.sendStatus(400)
   response.json(request.body); // отправляем пришедший ответ обратно
 })
-// app.get('/', function (request, response) {
-//   response.sendFile(__dirname + '/comments.html')
-// })
-app.listen(3000);
+app.get('/', function (request, response) {
+  response.sendFile(__dirname + '/comments.html')
+})
+app.listen(port, '127.0.0.1',()=> {
+    console.log(
+      'Сервер начал прослушивание запросов на порту '+ `${port}`
+    )
+  });
 
 // const http = require('http');
 // const url=require('url');
