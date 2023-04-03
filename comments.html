@@ -9,14 +9,53 @@
       <article>
         <h1>Comments</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <form action="localhost:3000/" method="post">
-          <input type="text" name="userName" value="">
-          <input type="text" name="userAge" value="">
-          <button type="submit" name="button">go to</button>
-        </form>
         <div style='width:900px; max-width:100%; border:3px black solid;border-radius: 5px;'>
           Comments
+          <form action="http://localhost:3000/" method="POST" name='registerForm'>
+            <input type="text" name="userName" value="userName"><br>
+            <input type="text" name="message" value="message"><br>
+            <input type="text" name="users" value="users"><br>
+            <button type="submit" name="button" id='submit'>go to</button>
+          </form>
         </div>
+        <script type="text/javascript">
+        document.querySelector('body > main:nth-child(1) > article:nth-child(1) > div:nth-child(3) > form:nth-child(1) > button:nth-child(7)').addEventListener('click',()=>{
+          console.log('click')
+
+        });
+
+        document.getElementById('submit').addEventListener('click',(e)=>{
+          e.preventDefault()
+          console.log(e);
+          // получаем данные формы
+          let registerForm = document.forms['registerForm']
+          let userName=registerForm.elements['userName'].value
+          let message=registerForm.elements['message'].value
+          let users=registerForm.elements['users'].value
+          // сериализуем данные в json
+          let user = JSON.stringify({
+            'userName': 'userName',
+            'message': 'message',
+            'users': 'users',
+          })
+          let request = new XMLHttpRequest()
+          // посылаем запрос на адрес "/user"
+          request.open('POST', 'http://localhost:3000/', true)
+          request.setRequestHeader(
+            'Content-Type',
+            'application/json'
+          )
+          // console.log(request);
+          request.addEventListener('load', function () {
+            // получаем и парсим ответ сервера
+            let receivedUser = JSON.parse(request.response);
+            console.log(receivedUser);
+            console.log(receivedUser.userName,'-',receivedUser.message
+          ) // смотрим ответ сервера
+        })
+        request.send(user);
+      })
+        </script>
       </article>
     </main>
   </body>
