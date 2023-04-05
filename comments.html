@@ -4,6 +4,25 @@
     <meta charset="utf-8">
     <title>comments</title>
     <style media="screen">
+    body{
+      display:block;
+      margin-left: auto;
+      margin-right: auto;
+      width:900px;
+      max-width: calc(100% - 4px);
+    }
+    main{
+      margin-left: auto;
+      margin-right: auto;
+    }
+    article{
+      display:flex;
+      text-align: center;
+      justify-content: center;
+      max-width: 900px;
+      width:calc(100% - 4px);
+      flex-direction:column;
+    }
       form{
         text-align: center;
       }
@@ -17,13 +36,13 @@
         <div style='width:900px; max-width:100%; border:3px black solid;border-radius: 5px;'>
           Comments:
           <form action="/comments" method="POST" name='registerForm'>
-            <input type="text" name="userName" value="userName"><br>
-            <textarea name="message" value="message" cols='28'></textarea><br>
-            <input type="text" name="date" value="date"><br>
+            <input type="text" name="userName" value="" placeholder='userName'><br>
+            <textarea name="message" value="message" cols='28' placeholder="to new messages"></textarea><br>
+            <span id="date" name="date" value=""placeholder='date'></span><br>
             <button type="submit" name="button" id='submit'>go to</button>
           </form>
         </div>
-        <div id="comments"></div>
+        <div id="com"></div>
         <script type="text/javascript">
         document.querySelector('body > main:nth-child(1) > article:nth-child(1) > div:nth-child(3) > form:nth-child(1) > button:nth-child(7)').addEventListener('click',()=>{
           console.log('click')
@@ -55,7 +74,8 @@
           request.addEventListener('load', function () {
             // получаем и парсим ответ сервера
             let receivedUser = JSON.parse(request.response);
-            console.log(receivedUser);
+            // console.log(request);
+            // console.log(response);
             console.log(receivedUser.userName,'-',receivedUser.message,' - ',receivedUser.date
           ) // смотрим ответ сервера
         })
@@ -83,10 +103,12 @@
       xhr.open('GET', put3, true);
       xhr.onload = function(){
       console.log(xhr.responseURL); // http://example.com/test
-      document.getElementById("comments").innerHTML = this.responseText;
+      document.getElementById("com").innerHTML = this.responseText;
       };
       xhr.send();
       // console.log(put3);
+
+      document.querySelector('#date').innerHTML="<p style='border:1px solid lightgray; border-radius:2px;'>"+`${new Date()}`+"</p>";
         </script>
       </article>
     </main>
