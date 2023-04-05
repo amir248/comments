@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <title>comments</title>
     <style media="screen">
+    *{
+      margin:0;
+    }
     body{
       display:block;
       margin-left: auto;
@@ -42,6 +45,8 @@
             <button type="submit" name="button" id='submit'>go to</button>
           </form>
         </div>
+        <img src="public/images/excellent-work.png" alt="">
+        <img src="public/images/great-job.png" alt="">
         <div id="com"></div>
         <script type="text/javascript">
         document.querySelector('body > main:nth-child(1) > article:nth-child(1) > div:nth-child(3) > form:nth-child(1) > button:nth-child(7)').addEventListener('click',()=>{
@@ -56,7 +61,7 @@
           let registerForm = document.forms['registerForm']
           let userName=registerForm.elements['userName'].value
           let message=registerForm.elements['message'].value
-          let date=registerForm.elements['date'].value
+          // let date=registerForm.elements['date'].value
           // сериализуем данные в json
           let user = JSON.stringify({
             userName: userName,

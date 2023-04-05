@@ -1,0 +1,25 @@
+*{
+  margin:0;
+}
+body{
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  width:900px;
+  max-width: calc(100% - 4px);
+}
+main{
+  margin-left: auto;
+  margin-right: auto;
+}
+article{
+  display:flex;
+  text-align: center;
+  justify-content: center;
+  max-width: 900px;
+  width:calc(100% - 4px);
+  flex-direction:column;
+}
+  form{
+    text-align: center;
+  }

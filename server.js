@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const fs =require('fs');
-
+const path=require('path');
 // const cors = require("cors");
 // const {createProxyMiddleware}=require('http-proxy-middleware');
 // app.use(cors());
@@ -21,8 +21,12 @@ const fs =require('fs');
 
 app.use(express.static('public'));
 app.use(express.static('json'));
-app.use('comments', express.static(__dirname + '/public'));
+app.use(express.static('images'));
+app.use(express.static('comments'));
+app.use('/images', express.static(__dirname+'public'));
+app.use('/json', express.static(__dirname + 'public'));
 console.log(__dirname);
+app.set('views','./public');
 // var cors = require('cors')
 // app.use(cors())
 // app.get('/comments/json', function (req, res, next) {
