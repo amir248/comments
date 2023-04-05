@@ -1,31 +1,3 @@
-// const express = require("express");
-// const app = express();
-// const fs = require('fs');
-// console.log('oK');
-//
-//
-// app.use(express.urlencoded({extended: false}));
-// app.get("/", (request, response)=> {
-//     response.sendFile(__dirname + "/comments.html");
-// });
-// app.post("/", (request, response)=> {
-//   if(!request.body) return response.sendStatus(400);
-//   console.log(request.body);
-//   response.send(`${request.body.userName}`);
-//   console.log(`${request.body.userName}`);
-//    // - ${response.body.userAge}
-//   // console.log(`${request.body.userName} - ${request.body.userAge}`);
-// });
-//
-// app.listen(3000, ()=>console.log("Сервер запущен..."));
-
-// const http=require('http');
-// http.createServer((request,response)=>{
-//   console.log('request');
-//   response.end('go');
-// }),listen(3003);
-
-
 const express = require('express');
 const app = express();
 const fs =require('fs');
@@ -47,18 +19,14 @@ const fs =require('fs');
 //   logLevel: "debug"
 // }));
 
-
 app.use(express.static('/public'));
-app.use('/public', express.static(__dirname + 'json'));
+app.use('/comments', express.static(__dirname + '/public'));
 console.log(__dirname);
 // var cors = require('cors')
-//
 // app.use(cors())
-//
 // app.get('/comments/json', function (req, res, next) {
 //   res.json({msg: Access-Control-Allow-Origin https://nasobe.ru})
 // })
-
 // app.listen(80, function () {
 //   console.log('CORS-enabled web server listening on port 80')
 // })
@@ -74,13 +42,13 @@ app.post('/comments', jsonParser, function (request, response) {
   if (!request.body) return response.sendStatus(400);
   console.log(request.body);
   let oki=JSON.stringify(request.body);
-  fs.stat('public/json/message.html',(err,stats)=>{
+  fs.stat('public/json/message.json',(err,stats)=>{
     if(err){
       console.log('fine non');
-      fs.writeFileSync('public/json/message.html',`${oki}`);
+      fs.writeFileSync('public/json/message.json',`${oki}`);
     }else if(stats){
       console.log('file EST');
-      fs.appendFileSync('public/json/message.html',`${oki}`);
+      fs.appendFileSync('public/json/message.json',`${oki}`);
     }else{
       console.log('ELSE')
     }
@@ -95,49 +63,3 @@ app.listen(port, host,()=> {
       'Сервер начал прослушивание запросов на порту '+ `${port}`
     )
   });
-
-// const http = require('http');
-// const url=require('url');
-// const { parse }=require('querystring');
-// const port=3000;
-// http.createServer((request, response)=>{
-//   if(request.method=='GET'){
-//     console.log(request);
-//     response.end('Hello NodeJS!'+'_'+request.url+'^_^');
-//     let urlRequest = url.parse(request.url,true);
-//     console.log(urlRequest.query);
-//     console.log(request.method);
-//   }else if(request.method=='POST'){
-//     console.log("POST ^_^");
-//     console.log(request.method);
-//     response.end("Hello method post!");
-//     let body='';
-//     request.on('data',chunk=>{
-//       body+=chunk.toString();
-//       console.log(body.key);
-//       let params = parse(body);
-//       console.log(params);
-//       console.log(params.message);
-//     });
-//   }else{
-//     request.on('end',()=>{
-//       console.log(body);
-//       let params = parse(body);
-//       console.log(params);
-//       console.log(params.message);
-//       response.end('ok');
-//     });
-//     console.log('ELSE '+request.method);
-//     request.on('end',()=>{
-//       console.log(body);
-//       let params = parse(body);
-//       console.log(params);
-//       console.log(params.message);
-//       response.end('ok');
-//     });
-//   }
-// }).listen(port, '127.0.0.1',()=> {
-//     console.log(
-//       'Сервер начал прослушивание запросов на порту '+ `${port}`
-//     )
-//   })
