@@ -2,41 +2,15 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>comments</title>
-    <link rel="stylesheet" href="/public/style.css">
-    <style media="screen">
-    *{
-      margin:0;
-    }
-    body{
-      display:block;
-      margin-left: auto;
-      margin-right: auto;
-      width:900px;
-      max-width: calc(100% - 4px);
-    }
-    main{
-      margin-left: auto;
-      margin-right: auto;
-    }
-    article{
-      display:flex;
-      text-align: center;
-      justify-content: center;
-      max-width: 900px;
-      width:calc(100% - 4px);
-      flex-direction:column;
-    }
-      form{
-        text-align: center;
-      }
-    </style>
+    <title><%=title%></title>
+    <link rel="stylesheet" href="/style/style.css">
+  
   </head>
   <body>
     <main>
       <article>
-        <h1>Comments</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h1><%=title%></h1>
+        <p><%=text%></p>
         <div style='width:900px; max-width:100%; border:3px black solid;border-radius: 5px;'>
           Comments:
           <form action="/comments" method="POST" name='registerForm'>
@@ -52,9 +26,7 @@
         <script type="text/javascript">
         document.querySelector('body > main:nth-child(1) > article:nth-child(1) > div:nth-child(3) > form:nth-child(1) > button:nth-child(7)').addEventListener('click',()=>{
           console.log('click')
-
         });
-
         document.getElementById('submit').addEventListener('click',(e)=>{
           e.preventDefault();
           console.log(e);
@@ -88,8 +60,6 @@
         request.send(user);
       });
 
-      //put comments
-      const put3='public/json/message.json';
 
     //   fetch(put3)
     // .then(response => response.json())
@@ -105,6 +75,8 @@
       // }
       // xhr.send();
 
+      //put comments
+      const put3='/public/json/message.json';
       const xhr = new XMLHttpRequest();
       xhr.open('GET', put3, true);
       xhr.onload = function(){
@@ -113,7 +85,6 @@
       };
       xhr.send();
       // console.log(put3);
-
       document.querySelector('#date').innerHTML="<p style='border:1px solid lightgray; border-radius:2px;'>"+`${new Date()}`+"</p>";
         </script>
       </article>
