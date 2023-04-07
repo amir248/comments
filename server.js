@@ -20,11 +20,11 @@ const path=require('path');
 // }));
 
 app.use(express.static('public'));
-app.use(express.static('json'));
-app.use(express.static('images'));
-app.use(express.static('comments'));
-app.use('/images', express.static(__dirname+'public'));
-app.use('/json', express.static(__dirname + 'public'));
+// app.use(express.static('json'));
+// app.use(express.static('images'));
+// app.use(express.static('comments'));
+// app.use('/images', express.static(__dirname+'public'));
+// app.use('/json', express.static(__dirname + 'public'));
 console.log(__dirname);
 app.set('views','./public');
 // var cors = require('cors')
@@ -42,18 +42,33 @@ const jsonParser = express.json();
 const port=3000;
 const host = '127.0.0.1';
 
+const puthServer='/comments/json/message.json';
+const putChik='public/json/message.json';
+
 app.post('/comments/', jsonParser, function (request, response) {
   // console.log(request.body);
   if (!request.body) return response.sendStatus(400);
   // console.log(request.body);
-  let oki=JSON.stringify(request.body);
-  fs.stat('public/json/message.json',(err,stats)=>{
+  let oki=JSON.stringify(request.body)+'';
+  console.log(__dirname);
+  fs.stat(putChik,(err,stats)=>{
     if(err){
       console.log('fine non');
-      fs.writeFileSync('public/json/message.json',`${oki}`);
+      fs.writeFileSync(putChik,'['+`${oki}`+']');
     }else if(stats){
       console.log('file EST');
-      fs.appendFileSync('public/json/message.json',`${oki}`);
+      let newFile=fs.readFileSync(putChik,"utf8");
+      // let object=JSON.parse(newFile);
+      console.log(newFile);
+      let str=newFile.slice(0,-1);
+      // oki.slice(0,-1);
+      console.log(str);
+      let newOk=fs.writeFileSync(putChik, str+","+`${oki}`+']');
+      console.log(newOk);
+      // fs.appendFileSync('public/json/message.json', ','+`${oki}`+']'+" ");
+      // const str1 = "DelftStacks";
+      // const str2 = str1.slice(0, -2);
+      // console.log(str2);
     }else{
       console.log('ELSE')
     }
