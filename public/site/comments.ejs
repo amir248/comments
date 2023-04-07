@@ -5,6 +5,7 @@
     <title><%=title%></title>
     <!-- /comments -->
     <link rel="stylesheet" href="/comments/style/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
   </head>
   <body>
@@ -14,7 +15,7 @@
         <p><%=text%></p>
         <div style='width:900px; max-width:100%; border:3px black solid;border-radius: 5px;'>
           Comments:
-          <form action="/comments" method="POST" name='registerForm'>
+          <form action="/comments/commentson" method="POST" name='registerForm'>
             <input type="text" name="userName" value="" placeholder='userName'><br>
             <textarea name="message" value="message" cols='28' placeholder="to new messages"></textarea><br>
             <span id="date" name="date" value=""placeholder='date'></span><br>
@@ -40,7 +41,7 @@
           })
           let request = new XMLHttpRequest()
           // посылаем запрос на адрес "/user"
-          request.open('POST', '/site/comments', true)
+          request.open('POST', '/comments/commentson', true)
           request.setRequestHeader(
             'Content-Type',
             'application/json'
@@ -71,7 +72,7 @@
       //   }
       // }
       // xhr.send();
-
+      // setInterval(()=>newComment(),10000);
       //put comments
       const put3='/comments/json/message.json';
       function newComment(){
@@ -81,28 +82,33 @@
           console.log(xhr.responseURL); // http://example.com/test
           // document.getElementById("com").innerHTML = this.responseText;
           let message=JSON.parse(this.responseText);
-          // console.log(message[1]['userName']);
-          // console.log(message[1]['message']);
-          // console.log(message[1]['date']);
           let count=message.length;
-          let num=-1+count-1;
-          for(num;num>0;num--){
-            console.log(num+"_"+message.length+"_"+`${count}`);
-            let newUser=document.createElement('p');
-            newUser.innerHTML="<div style='color:red;'>"+message[num]['userName']+"</div>";
-            document.querySelector('article').append(newUser);
-            let newMessage=document.createElement('p');
-            newMessage.innerHTML="<div style='color:grey;font-size:20px;'>"+message[num]['message']+"</div>";
-            document.querySelector('article').append(newMessage);
-            let newDate=document.createElement('p');
-            newDate.innerHTML="<div style='color:blue;'>"+message[num]['date']+"</div>";
-            document.querySelector('article').append(newDate);
-          }
-        };
-
+          console.log(count);
+          let num=-1+count+0;
+          console.log(num);
+          // setInterval(()=>{
+            // console.log(message[num]['userName']);
+            // console.log(message[num]['message']);
+            // console.log(message[num]['date']);
+            for(num;num>0;num--){
+              // console.log(num+"_"+message.length+"_"+`${count}`);
+              let newUser=document.createElement('p');
+              newUser.innerHTML="<div style='color:red;'>"+message[num]['userName']+"</div>";
+              document.querySelector('article').append(newUser);
+              let newMessage=document.createElement('p');
+              newMessage.innerHTML="<div style='color:grey;font-size:20px;'>"+message[num]['message']+"</div>";
+              document.querySelector('article').append(newMessage);
+              let newDate=document.createElement('p');
+              newDate.innerHTML="<div style='color:blue;'>"+message[num]['date']+"</div>";
+              document.querySelector('article').append(newDate);
+            }
+          // },3000);//setInterval
+        }
         xhr.send();
         document.querySelector('#date').innerHTML="<p style='border:1px solid lightgray; border-radius:2px;'>"+`${new Date()}`+"</p>";
-      }
+      }//newComment
+      // newComment();
+
       document.addEventListener('DOMContentLoaded',()=>{
         newComment();
       });
@@ -110,6 +116,8 @@
       document.querySelector('body > main:nth-child(1) > article:nth-child(1) > div:nth-child(3) > form:nth-child(1) > button:nth-child(7)').addEventListener('click',()=>{
         console.log('click');
         newComment();
+        // window.location.reload();
+        setInterval(()=>window.location.href='/comments',3000);
       });
         </script>
       </article>

@@ -42,11 +42,14 @@ const jsonParser = express.json();
 const port=3000;
 const host = '127.0.0.1';
 
-const puthServer='/comments/json/message.json';
+const puthServer='comments/json/message.json';
 const putChik='public/json/message.json';
 
-app.post('/comments/', jsonParser, function (request, response) {
+// HOST '/comments/commentson
+app.post('/comments', jsonParser, function (request, response) {
   // console.log(request.body);
+  // fs.writeFileSync(putChik,'ooK');
+
   if (!request.body) return response.sendStatus(400);
   // console.log(request.body);
   let oki=JSON.stringify(request.body)+'';
