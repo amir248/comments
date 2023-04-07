@@ -6,6 +6,15 @@
     <!-- /comments -->
     <link rel="stylesheet" href="/style/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171292045-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-171292045-1');
+    </script>
 
   </head>
   <body>
@@ -93,13 +102,13 @@
             for(num;num>0;num--){
               // console.log(num+"_"+message.length+"_"+`${count}`);
               let newUser=document.createElement('p');
-              newUser.innerHTML="<div style='color:red;'>"+message[num]['userName']+"</div>";
+              newUser.innerHTML="<div style='color:red;float:left;font-size:25px;'><span style='color:orange;font-size:20px;'>NickName: </span>"+message[num]['userName']+"</div>";
               document.querySelector('article').append(newUser);
               let newMessage=document.createElement('p');
-              newMessage.innerHTML="<div style='color:grey;font-size:20px;'>"+message[num]['message']+"</div>";
+              newMessage.innerHTML="<div style='color:grey;font-size:20px;'><span style='color:green;font-size:20px;'>Message: </span>"+message[num]['message']+"</div>";
               document.querySelector('article').append(newMessage);
               let newDate=document.createElement('p');
-              newDate.innerHTML="<div style='color:blue;'>"+message[num]['date']+"</div>";
+              newDate.innerHTML="<div style='color:blue;float:right;'><span style='color:violet;font-size:18px;'>Date: </span>"+message[num]['date']+"</div>";
               document.querySelector('article').append(newDate);
             }
           // },3000);//setInterval
