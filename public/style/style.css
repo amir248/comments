@@ -31,3 +31,8 @@ h1{
   width:100%;
   text-align: center;
 }
+textarea{
+  width:450px;
+  max-width: calc(100% - 9px);
+  height:70px;
+}

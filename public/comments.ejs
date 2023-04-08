@@ -30,7 +30,7 @@
           <form action="/comments" method="POST" name='registerForm'>
             <input type="text" name="userName" value="" placeholder='userName'><br>
             <textarea name="message" value="message" cols='28' placeholder="to new messages"></textarea><br>
-            <span id="date" name="date" value=""placeholder='date'></span><br>
+            <span id="date" name="date" value="" placeholder='date'></span><br>
             <button type="submit" name="button" id='submit'>go to</button>
             <span style='color:red;'>login > 4 and text > 7 symbol</span>
             <script src="https://www.google.com/recaptcha/enterprise.js?render=6Leh72clAAAAAEMkTaYe7iC8xiBVWd3PMAGyWmgy"></script>
@@ -80,56 +80,35 @@
         request.send(user);
       });
 
-
-    //   fetch(put3)
-    // .then(response => response.json())
-    // .then(commits => alert(commits[0].author.login));
-
-      // var xhr = new XMLHttpRequest();
-      // xhr.open("GET", `${put3}`, true);
-      // xhr.onreadystatechange = function(){//Вызывает функцию при смене состояния.
-      //   if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-      //     console.log(xhr.responseURL+" connect EST!!!");
-      //   document.getElementById("comments").innerHTML = this.responseText;
-      //   }
-      // }
-      // xhr.send();
-      // setInterval(()=>newComment(),10000);
       //put comments
       const put3='json/message.json';
-      function newComment(){
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', put3, true);
-        xhr.onload = function(){
-          console.log(xhr.responseURL); // http://example.com/test
-          // document.getElementById("com").innerHTML = this.responseText;
-          let message=JSON.parse(this.responseText);
-          let count=message.length;
-          console.log(count);
-          let num=-1+count+0;
-          console.log(num);
-          // setInterval(()=>{
-            console.log(message[num]['userName']);
-            console.log(message[num]['message']);
-            console.log(message[num]['date']);
-            for(num;num>0;num--){
-              // console.log(num+"_"+message.length+"_"+`${count}`);
-              let newUser=document.createElement('p');
-              newUser.innerHTML="<div style='color:red;float:left;font-size:25px;'><span style='color:orange;font-size:20px;'>NickName: </span>"+message[num]['userName']+"</div>";
-              document.querySelector('article').append(newUser);
-              let newMessage=document.createElement('p');
-              newMessage.innerHTML="<div style='color:grey;font-size:20px;'><span style='color:green;font-size:20px;'>Message: </span>"+message[num]['message']+"</div>";
-              document.querySelector('article').append(newMessage);
-              let newDate=document.createElement('p');
-              newDate.innerHTML="<div style='color:blue;float:right;'><span style='color:violet;font-size:18px;'>Date: </span>"+message[num]['date']+"</div>";
-              document.querySelector('article').append(newDate);
-            }
-          // },3000);//setInterval
-        }
-        xhr.send();
-        document.querySelector('#date').innerHTML="<p style='border:1px solid lightgray; border-radius:2px;'>"+`${new Date()}`+"</p>";
-      }//newComment
       // newComment();
+      function newComment(){
+        fetch(put3)
+        .then(response=>response.json())
+        // .then(ok=>document.getElementById("com").innerHTML = JSON.stringify(ok))
+        .then(message=>{
+          let count=message.length;
+          // console.log(count);
+          let num=-1+count+0;
+          // console.log(num);
+          for(num;num>=0;num--){
+            // console.log(message[num]['userName']);
+            // console.log(message[num]['message']);
+            // console.log(message[num]['date']);
+            let newUser=document.createElement('p');
+            newUser.innerHTML="<div style='color:red;float:left;font-size:25px;'><span style='color:orange;font-size:20px;'>NickName: </span>"+message[num]['userName']+"</div>";
+            document.querySelector('article').append(newUser);
+            let newMessage=document.createElement('p');
+            newMessage.innerHTML="<div style='color:grey;font-size:20px;'><span style='color:green;font-size:20px;'>Message: </span>"+message[num]['message']+"</div>";
+            document.querySelector('article').append(newMessage);
+            let newDate=document.createElement('p');
+            newDate.innerHTML="<div style='color:blue;float:right;'><span style='color:violet;font-size:18px;'>Date: </span>"+message[num]['date']+"</div>";
+            document.querySelector('article').append(newDate);
+          }
+          document.querySelector('#date').innerHTML="<p style='border:1px solid lightgray; border-radius:2px;'>"+`${new Date()}`+"</p>";
+        });
+      }//newComment
 
       document.addEventListener('DOMContentLoaded',()=>{
         newComment();
@@ -168,6 +147,10 @@
           document.querySelector('body > main > article > div:nth-child(3) > form > textarea').style.cssText=`background:rgba(255,0.0,0.3)`;
         }
       }//keyTestSubject
+
+      document.querySelector('button').addEventListener('click',()=>{
+        document.querySelector('#submit').disabled=true;
+      });
         </script>
       </article>
       <img src="/images/excellent-work.png" alt="">

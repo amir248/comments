@@ -42,7 +42,6 @@ const jsonParser = express.json();
 const port=3000;
 const host = '127.0.0.1';
 
-const puthServer='comments/json/message.json';
 const putChik='public/json/message.json';
 
 // HOST '/comments/commentson
@@ -60,14 +59,36 @@ app.post('/comments', jsonParser, function (request, response) {
       fs.writeFileSync(putChik,'['+`${oki}`+']');
     }else if(stats){
       console.log('file EST');
-      let newFile=fs.readFileSync(putChik,"utf8");
-      // let object=JSON.parse(newFile);
-      console.log(newFile);
-      let str=newFile.slice(0,-1);
-      // oki.slice(0,-1);
-      console.log(str);
-      let newOk=fs.writeFileSync(putChik, str+","+`${oki}`+']');
-      console.log(newOk);
+      function returnForever(){
+        // setTimeout(()=>{
+          let newFile=fs.readFileSync(putChik,"utf8",
+            function(error,data){
+                console.log("Асинхронное чтение файла");
+                if(error) throw error; // если возникла ошибка
+                console.log(data);  // выводим считанные данные
+              });
+              // console.log(newFile);
+              let un=+0;
+              let prov=JSON.stringify(newFile);
+              if(prov.endsWith(']"')){
+                console.log(prov+'====================================');
+                un=-1;
+              }else if(prov.endsWith('\n')){
+                console.log("------/n--------");
+                un=-2;
+              }else{
+                console.log(prov+'*********************************');
+                un=-2;
+              }
+          let str=newFile.slice(0,un);
+          return str;
+        // },10);
+      }
+      setTimeout(()=>{
+        // console.log(str);
+        let newOk=fs.writeFileSync(putChik, returnForever()+","+`${oki}`+']','utf8');
+        // console.log(newOk);
+      },300);
       // fs.appendFileSync('public/json/message.json', ','+`${oki}`+']'+" ");
       // const str1 = "DelftStacks";
       // const str2 = str1.slice(0, -2);
