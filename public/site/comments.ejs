@@ -6,16 +6,51 @@
     <!-- /comments -->
     <link rel="stylesheet" href="/comments/style/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='description' content='<%= description %>'>
+    <link rel="shortcut icon" href="/comments/images/ico.svg">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171292045-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    <!-- Разметка JSON-LD, созданная Мастером разметки структурированных данных Google. -->
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Comments",
+  "headline": "sustem comments",
+  "author" : {
+    "@type" : "Person",
+    "name" : "Amir Navrutdinov",
+    "alternateName": ["Amir Shikarno", "Амир Наврутдинов"],
+    "url" : "https://nasobe.ru/resume/resume.html"
+  },
+  "datePublished": "2023-04-07",
+  "image": "https://nasobe.ru/comments/images/great-job.png",
+  "articleSection": "Супер шикарная система комментаривев",
+  "articleBody": "Эта система комментариев без записи в базу данных. Сообщения записываются массивом в документ json форматa. После чего отправляются с сервера обратно в документ. С использованием одного только javascript. Как говорится в пословице: &quot;все гениальное просто&quot;. Рабочую систему комментариев можно скачать по ссылки с моего гитхаба https://github.com/amir248/comments Вот вам пожалуйста рабочая система комментариев в открытом доступе, это не то что условно бесплатная система комментариев как &quot;дискус&quot;. Сначало она бесплатная, а потом загромаждает все поля видимости жесточайшими ракламными блоками.",
+  "url": "https://nasobe.ru/comments/",
+  "publisher" : {
+    "@type" : "Organization",
+    "name" : "веб мастерская имени Барона Сайтоверстаузена",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://nasobe.ru/comments/"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://nasobe.ru/comments/"
+    }
+  }
+}
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CTRLNMFNGY"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
 
-      gtag('config', 'UA-171292045-1');
-    </script>
-
+gtag('config', 'G-CTRLNMFNGY');
+</script>
   </head>
   <body>
     <main>
@@ -29,6 +64,15 @@
             <textarea name="message" value="message" cols='28' placeholder="to new messages"></textarea><br>
             <span id="date" name="date" value=""placeholder='date'></span><br>
             <button type="submit" name="button" id='submit'>go to</button>
+            <span style='color:red;'>login > 4 and text > 7 symbol</span>
+            <script src="https://www.google.com/recaptcha/enterprise.js?render=6Leh72clAAAAAEMkTaYe7iC8xiBVWd3PMAGyWmgy"></script>
+<script>
+grecaptcha.enterprise.ready(function() {
+    grecaptcha.enterprise.execute('6Leh72clAAAAAEMkTaYe7iC8xiBVWd3PMAGyWmgy', {action: 'login'}).then(function(token) {
+       console.log(' ');
+    });
+});
+</script>
           </form>
         </div>
         <div id="com"></div>
@@ -61,8 +105,7 @@
             let receivedUser = JSON.parse(request.response);
             // console.log(request);
             // console.log(response);
-            console.log(receivedUser.userName,'-',receivedUser.message,' - ',receivedUser.date
-          ) // смотрим ответ сервера
+            // console.log(receivedUser.userName,'-',receivedUser.message,' - ',receivedUser.date) // смотрим ответ сервера
         })
         request.send(user);
       });
@@ -120,14 +163,40 @@
 
       document.addEventListener('DOMContentLoaded',()=>{
         newComment();
+        keyTestSubject();
       });
 
       document.querySelector('body > main:nth-child(1) > article:nth-child(1) > div:nth-child(3) > form:nth-child(1) > button:nth-child(7)').addEventListener('click',()=>{
-        console.log('click');
+        // console.log('click');
         newComment();
         // window.location.reload();
         setInterval(()=>window.location.href='/comments',3000);
       });
+      // setInterval(()=>newComment(),300);
+      let testSubject=document.querySelector('body > main > article > div:nth-child(3) > form > input[type=text]').value.length>3||document.querySelector('body > main > article > div:nth-child(3) > form > textarea').value.length>7;
+      function keyDown(){
+        document.querySelector('form').addEventListener('keydown',()=>{
+          keyTestSubject();
+        });
+      }//keyDown
+      keyDown();
+      function keyTestSubject(){
+        if(document.querySelector('body > main > article > div:nth-child(3) > form > input[type=text]').value.length>2&&document.querySelector('body > main > article > div:nth-child(3) > form > textarea').value.length>7){
+          document.querySelector('#submit').disabled=false;
+        }else{
+          document.querySelector('#submit').disabled=true;
+        }
+        if(document.querySelector('body > main > article > div:nth-child(3) > form > input[type=text]').value.length>2){
+          document.querySelector('body > main > article > div:nth-child(3) > form > input[type=text]').style.cssText=`background:rgba(0,255.0,0.3)`;
+        }else{
+          document.querySelector('body > main > article > div:nth-child(3) > form > input[type=text]').style.cssText=`background:rgba(255,0.0,0.3)`;
+        }
+        if(document.querySelector('body > main > article > div:nth-child(3) > form > textarea').value.length>7){
+          document.querySelector('body > main > article > div:nth-child(3) > form > textarea').style.cssText=`background:rgba(0,255.0,0.3)`;
+        }else{
+          document.querySelector('body > main > article > div:nth-child(3) > form > textarea').style.cssText=`background:rgba(255,0.0,0.3)`;
+        }
+      }//keyTestSubject
         </script>
       </article>
       <img src="/comments/images/excellent-work.png" alt="">
