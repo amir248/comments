@@ -25,6 +25,7 @@
       <article>
         <h1><%=title%></h1>
         <p><%=text%></p>
+        <strong><%=warnings%></strong>
         <div style='width:900px; max-width:100%; border:3px black solid;border-radius: 5px;'>
           Comments:
           <form action="/comments" method="POST" name='registerForm'>
@@ -115,7 +116,7 @@
         keyTestSubject();
       });
 
-      document.querySelector('body > main:nth-child(1) > article:nth-child(1) > div:nth-child(3) > form:nth-child(1) > button:nth-child(7)').addEventListener('click',()=>{
+      document.querySelector('#submit').addEventListener('click',()=>{
         console.log('click');
         newComment();
         // window.location.reload();
@@ -123,7 +124,7 @@
       });
       // setInterval(()=>newComment(),300);
 
-      let testSubject=document.querySelector('body > main > article > div:nth-child(3) > form > input[type=text]').value.length>3||document.querySelector('body > main > article > div:nth-child(3) > form > textarea').value.length>7;
+      let testSubject=document.querySelector('input[type=text]').value.length>3||document.querySelector('textarea').value.length>7;
       function keyDown(){
         document.querySelector('form').addEventListener('keydown',()=>{
           keyTestSubject();
@@ -131,20 +132,20 @@
       }//keyDown
       keyDown();
       function keyTestSubject(){
-        if(document.querySelector('body > main > article > div:nth-child(3) > form > input[type=text]').value.length>2&&document.querySelector('body > main > article > div:nth-child(3) > form > textarea').value.length>7){
+        if(document.querySelector('input[type=text]').value.length>2&&document.querySelector('textarea').value.length>7){
           document.querySelector('#submit').disabled=false;
         }else{
           document.querySelector('#submit').disabled=true;
         }
-        if(document.querySelector('body > main > article > div:nth-child(3) > form > input[type=text]').value.length>2){
-          document.querySelector('body > main > article > div:nth-child(3) > form > input[type=text]').style.cssText=`background:rgba(0,255.0,0.3)`;
+        if(document.querySelector('input[type=text]').value.length>2){
+          document.querySelector('input[type=text]').style.cssText=`background:rgba(0,255.0,0.3)`;
         }else{
-          document.querySelector('body > main > article > div:nth-child(3) > form > input[type=text]').style.cssText=`background:rgba(255,0.0,0.3)`;
+          document.querySelector('input[type=text]').style.cssText=`background:rgba(255,0.0,0.3)`;
         }
-        if(document.querySelector('body > main > article > div:nth-child(3) > form > textarea').value.length>7){
-          document.querySelector('body > main > article > div:nth-child(3) > form > textarea').style.cssText=`background:rgba(0,255.0,0.3)`;
+        if(document.querySelector('textarea').value.length>7){
+          document.querySelector('textarea').style.cssText=`background:rgba(0,255.0,0.3)`;
         }else{
-          document.querySelector('body > main > article > div:nth-child(3) > form > textarea').style.cssText=`background:rgba(255,0.0,0.3)`;
+          document.querySelector('textarea').style.cssText=`background:rgba(255,0.0,0.3)`;
         }
       }//keyTestSubject
 
