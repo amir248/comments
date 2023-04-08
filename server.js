@@ -5,7 +5,8 @@ const path=require('path');
 
 app.use(express.static('public'));
 console.log(__dirname);
-app.set('views','./public');
+app.set('views','public');
+// app.set('views','views');
 
 // создаем парсер для данных в формате json
 const jsonParser = express.json();
@@ -15,7 +16,7 @@ const host = '127.0.0.1';
 const putChik='public/json/message.json';
 
 // HOST '/comments/commentson
-app.post('/comments', jsonParser, function (request, response) {
+app.post('/comments/', jsonParser, function (request, response) {
   if (!request.body) return response.sendStatus(400);
   // console.log(request.body);
   let oki=JSON.stringify(request.body)+'';
@@ -62,6 +63,13 @@ app.set("view engine", "ejs");
 // app.get('/comments', function (request, response) {
 //   response.sendFile(__dirname + '/comments.html')
 // });
+app.use("/comments/index",(request,response)=>{
+  response.render('index',{
+    title:"title",
+    text: "text Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    description: "description"
+  })
+});
 app.use("/comments",(request,response)=>{
   response.render("comments",{
     title:"Comments",
@@ -70,6 +78,7 @@ app.use("/comments",(request,response)=>{
     description: "Самописная система комментариев, для сайта."
   });
 });
+
 app.listen(port, host,()=> {
     console.log(
       'Сервер начал прослушивание запросов на порту '+ `${port}`
