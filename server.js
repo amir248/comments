@@ -15,8 +15,12 @@ const host = '127.0.0.1';
 
 const putChik='public/json/message.json';
 
+app.get("/", function(request, response){
+      // response.send('oK!!!');
+    response.sendFile(__dirname + "/page.html");
+});
 // HOST '/comments/commentson
-app.post('/comments/', jsonParser, function (request, response) {
+app.post('/comments', jsonParser, function (request, response) {
   if (!request.body) return response.sendStatus(400);
   // console.log(request.body);
   let oki=JSON.stringify(request.body)+'';
@@ -52,7 +56,7 @@ app.post('/comments/', jsonParser, function (request, response) {
       }//returnForever
       setTimeout(()=>{
         let newOk=fs.writeFileSync(putChik, returnForever()+","+`${oki}`+']','utf8');
-      },300);
+      },0);
     }else{
       console.log('ELSE')
     }
