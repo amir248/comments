@@ -10,14 +10,39 @@ app.set('views','public');
 
 // создаем парсер для данных в формате json
 const jsonParser = express.json();
-const port=3000;
+const port=3001;
 const host = '127.0.0.1';
 
 const putChik='public/json/message.json';
 
-app.get("/", function(request, response){
-      // response.send('oK!!!');
-    response.sendFile(__dirname + "/page.html");
+// app.get("/", function(request, response){
+//       // response.send('oK!!!');
+//     response.sendFile(__dirname + "/page.html");
+// });
+// //******************************************************************************
+// app.use(function (req, res, next) {
+//   res.setHeader('Content-Type', 'application/json');
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost');
+//   res.setHeader('Access-Control-Allow-Methods', 'POST');
+//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   next();
+// });
+
+app.post('/comments/post', jsonParser, function (request, response) {
+  console.log(JSON.stringify(request.query));
+  console.log(request);
+  // console.log(JSON.parse(request));
+  // if (request.body) return response.sendStatus(400);
+  // let oki=JSON.stringify(request.body)+'';
+  // console.log(oki);
+
+  if (!request.body) return response.sendStatus(400);
+  console.log(request.headers);
+  console.log(request.body);
+  console.log(request.query);
+  response.json(request.body); // отправляем пришедший ответ обратно
+
 });
 // HOST '/comments/commentson
 app.post('/comments', jsonParser, function (request, response) {
@@ -82,6 +107,10 @@ app.use("/comments",(request,response)=>{
     description: "Самописная система комментариев, для сайта."
   });
 });
+
+
+
+
 
 app.listen(port, host,()=> {
     console.log(

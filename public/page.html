@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="hh.svg">
     <title>news Page</title>
   </head>
   <body>
@@ -9,7 +10,7 @@
       <article class="">
         <h1>oK</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <form action="localhost:3000/comments" method="post" name="registerForm">
+        <form action="localhost:3000/comments/commentson" method="post" name="registerForm">
           <fieldset>
             <legend>login</legend>
             <input type="text" name="login" value="">
@@ -20,12 +21,15 @@
           </fieldset>
           <button type="submit" name="button" id='submit'>Go</button>
         </form>
+        <button type="button" id='start' name="button">Fetch</button>
         <div id="comments"></div>
       </article>
       <script type="text/javascript">
 
       document.getElementById('submit').addEventListener('click',(e)=>{
+
                 e.preventDefault();
+
                 // newComment();
                 // получаем данные формы
                 let registerForm = document.forms['registerForm']
@@ -40,7 +44,7 @@
                 })
                 let request = new XMLHttpRequest()
                 // посылаем запрос на адрес "/user"
-                request.open('POST', '/comments', true)
+                request.open('POST', '/comments/post', true)
                 request.setRequestHeader(
                   'Content-Type',
                   'application/json'
@@ -59,27 +63,82 @@
 
 
 
-      const put3='/json/message.json';
+            const put2='/files/text.json';
+            const put3='/comments/post';
+//   fetch(put3)
+// .then(response => response.json())
+// .then(ok => document.getElementById("comments").innerHTML = JSON.stringify(ok.name));
+// const formEl=document.querySelector('form');
+// formEl.addEventListener('click',()=>{
+//   console.log('oK')
+//   // event.preventDefault();
+//   // const formData=new FormData(formEl);
+//   const data = {email: 'max@test.com', password: '12345'};
+//   fetch(put3,{
+//     'method': 'POST',
+//     body:JSON.stringify(data),
+//     'headers':{
+//       'Content-Type':'application/json'
+//     },
+//   })
+//   .then(status)
+//   .then(json)
+// });
+// async function Fetch(){
+//   const formData = new FormData(document.querySelector('form'));
+//   const data= Object.fromEntries(formData);
+//   let response = await fetch(put3,{
+//     method: 'POST',
+//     headers:{
+//       // 'Autorization':'Basic'+btoa('username:password'),
+//       'Content-Type': 'aplication/json',
+//       'body': JSON.stringify(data),
+//       // 'redirect': 'follow'
+//     }
+//   })
+  // .then(response => response.json())
+  // .then(ok=>document.getElementById("comments").innerHTML = JSON.stringify(ok.powers));
 
-  fetch(put3)
-.then(response => response.json())
-.then(ok => document.getElementById("comments").innerHTML = JSON.stringify(ok.userName));
+  // if (response.ok) { // если HTTP-статус в диапазоне 200-299
+  //   // получаем тело ответа (см. про этот метод ниже)
+  //   let json = await response.json();
+  // } else {
+  // console.log("Ошибка HTTP: " + response);
+  // }
 
-// let response = await fetch (put3);
-// if(response.ok){
-//   let json=await response.json();
-// }else{
-//   console.log('Osh ' + response.status);
 // }
+// Fetch();
 
-//   const xhr = new XMLHttpRequest();
-// xhr.open('GET', put3, true);
-// xhr.onload = function(){
-//   console.log(xhr.responseURL); // http://example.com/test
-//   document.getElementById("comments").innerHTML = this.responseText;
-// };
-// xhr.send();
+async function f2(){
+   const res = await fetch(put3)
+  // return res.text();
+  console.log(res);
+  console.log(res.text());
+}
+f2();
 
+  document.querySelector('#start').addEventListener('click',()=>{
+    let userName=registerForm.elements['login'].value
+    let message=registerForm.elements['message'].value
+    async function penetration(){
+      let user = {
+        name: userName,
+        surname: message
+      };
+
+      let response = await fetch('/comments/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+      });
+
+      let result = await response.json();
+      console.log(result.name+"__"+result.surname);
+    }
+    penetration();
+  })
       </script>
     </main>
   </body>
