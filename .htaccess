@@ -2,5 +2,5 @@
     Header set Access-Control-Allow-Origin  https://nasobe.ru/
 </IfModule>
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin  localhost:3000
+    Header set Access-Control-Allow-Origin  localhost:3000 and balda
 </IfModule>
