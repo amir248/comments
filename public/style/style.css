@@ -36,3 +36,9 @@ textarea{
   max-width: calc(100% - 9px);
   height:70px;
 }
+.box{
+  display:flex;
+  flex-direction: column;
+  min-width: 100%;
+  width:100%;
+}

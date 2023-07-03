@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const fs =require('fs');
 const path=require('path');
+const cors = require('cors');
 
 app.use(express.static('public'));
 console.log(__dirname);
@@ -10,42 +11,103 @@ app.set('views','public');
 
 // создаем парсер для данных в формате json
 const jsonParser = express.json();
-const port=3001;
+const port=9500;
 const host = '127.0.0.1';
 
 const putChik='public/json/message.json';
 
-// app.get("/", function(request, response){
-//       // response.send('oK!!!');
-//     response.sendFile(__dirname + "/page.html");
-// });
-// //******************************************************************************
-// app.use(function (req, res, next) {
-//   res.setHeader('Content-Type', 'application/json');
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost');
-//   res.setHeader('Access-Control-Allow-Methods', 'POST');
-//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-//   next();
-// });
 
-app.post('/comments/post', jsonParser, function (request, response) {
-  console.log(JSON.stringify(request.query));
-  console.log(request);
-  // console.log(JSON.parse(request));
-  // if (request.body) return response.sendStatus(400);
-  // let oki=JSON.stringify(request.body)+'';
-  // console.log(oki);
 
+app.use(cors({
+  origin:['https://amir248.github.io/','http://localhost','http://localhost:3700','https://nasobe.ru'],
+  method:'post',
+  optionsSuccessStatus: 200
+}));
+
+app.post('/comments/script/allow-cors/',jsonParser,cors(),(request,response)=>{
   if (!request.body) return response.sendStatus(400);
-  console.log(request.headers);
-  console.log(request.body);
-  console.log(request.query);
-  response.json(request.body); // отправляем пришедший ответ обратно
-
+  let scriptComments=fs.readFileSync('public/script/script.js',"utf8",
+  (error,data)=>{
+    console.log("Async read file script.ts");
+    if(error) throw error;
+    console.log(data);
+  });
+  response.send(scriptComments);
 });
+
+
+app.post('/comments/json/git.json/allow-cors',jsonParser,cors(),(request,response)=>{
+  if (!request.body) return response.sendStatus(400);
+  let jsonFile=fs.readFileSync('public/json/git.json',"utf8",
+    function(error,data){
+        console.log("Асинхронное чтение файла");
+        if(error) throw error;
+        console.log(data);
+      });
+  response.send(jsonFile);
+});
+
+//app.use('/comments/post',function (request, response, next) {
+  //response.setHeader('Content-Type', 'application/json');
+//  response.setHeader('Access-Control-Allow-Origin', '*');
+  //response.setHeader('Access-Control-Allow-Origin', 'https://amir248.github.io');
+  //response.setHeader('Access-Control-Allow-Methods', 'POST');
+  //response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  //response.setHeader('Access-Control-Allow-Credentials', true);
+   //response.json(request.body);
+  //next();
+//});
+
+app.post('/comments/post', jsonParser,cors(), function (request, response) {
+
+
+    if (!request.body) return response.sendStatus(400);
+  let gitJson=JSON.stringify(request.body)+'';
+  const putGit='public/json/git.json';//puth for JSON
+  fs.stat(putGit,(err,stats)=>{
+    if(err){
+      console.log('fine non');
+      fs.writeFileSync(putGit,'['+`${gitJson}`+']');
+    }else if(stats){
+      console.log('file EST');
+      function returnForever(){
+          let newFile=fs.readFileSync(putGit,"utf8",
+            function(error,data){
+                console.log("Асинхронное чтение файла");
+                if(error) throw error; // если возникла ошибка
+                console.log(data);  // выводим считанные данные
+              });
+              // console.log(newFile);
+              let un=+0;
+              let prov=JSON.stringify(newFile);
+              if(prov.endsWith(']"')){
+                console.log(prov+'====================================');
+                un=-1;
+              }else if(prov.endsWith('\n')){
+                console.log("------/n--------");
+                un=-2;
+              }else{
+                console.log(prov+'*********************************');
+                un=-2;
+              }
+          let str=newFile.slice(0,un);
+          return str;
+      }//returnForever
+      setTimeout(()=>{
+        let newOk=fs.writeFileSync(putGit, returnForever()+","+`${gitJson}`+']','utf8');
+      },0);
+    }else{
+      console.log('ELSE')
+    }
+  });
+  response.json(request.body); // отправляем пришедший ответ обратно
+});
+
+
+
+
 // HOST '/comments/commentson
-app.post('/comments', jsonParser, function (request, response) {
+app.post('/comments/commentson', jsonParser, function (request, response) {
   if (!request.body) return response.sendStatus(400);
   // console.log(request.body);
   let oki=JSON.stringify(request.body)+'';
@@ -107,7 +169,6 @@ app.use("/comments",(request,response)=>{
     description: "Самописная система комментариев, для сайта."
   });
 });
-
 
 
 
