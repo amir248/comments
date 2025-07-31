@@ -1,0 +1,37 @@
+server {
+	listen 777;
+	listen [::]:777;
+
+	server_name  comments.qucu.ru;
+
+	root /var/www/comments;
+	index index.html index.php;
+
+	location / {
+		# proxy_pass http://192.168.1.177;
+		# proxy_set_header Host $host;
+		try_files $uri $uri/ =404;
+	}
+	location /allow-corse {
+		add_header 'Access-Control-Allow-Origin' '*';
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+		add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+		proxy_pass http://192.168.1.177:3000/allow-corse;
+		#try_files $uri $uri/ /public/script/script.js;
+	}
+        location /nasoberu.json {
+		proxy_pass http://192.168.1.177:3000/public/json/nasoberu.json;
+                proxy_set_header Host $host;
+		add_header 'Access-Control-Allow-Origin' '*' always;
+	}
+        location /public/json/nasoberu.json {
+                add_header 'Access-Control-Allow-Origin' '*';
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+		add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+
+
+		proxy_pass http://192.168.1.177:3000/public/json/nasoberu.json;
+                proxy_set_header Host $host;
+		add_header 'Access-Control-Allow-Origin' '*' always;
+	}
+}
