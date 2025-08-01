@@ -1,10 +1,9 @@
 {
   "name": "comments",
-  "version": "3.3.3",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Amir",
   "license": "ISC",
@@ -16,16 +15,5 @@
     "json": "^11.0.0",
     "path": "^0.12.7"
   },
-  "description": "comments system",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/amir248/comments.git"
-  },
-  "keywords": [
-    "commentsSystem"
-  ],
-  "bugs": {
-    "url": "https://github.com/amir248/comments/issues"
-  },
-  "homepage": "https://github.com/amir248/comments#readme"
+  "description": ""
 }
