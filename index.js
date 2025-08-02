@@ -16,7 +16,6 @@ app.set("view engine", "ejs");
 app.use(express.static('public'));
 
 app.get('/', (request, response) => {
-    console.log(__dirname);
   response.render('indexPage', { title: 'My Express App', text: 'Hello from comments from NODE.JS!' });
 });
 
@@ -49,16 +48,7 @@ app.post('/allow-cors',jsonParser,cors(),(request,response)=>{
 //******************************************************************************************************************
 // ----------------------------BOX comments system------------
 // *******************************************************************************************************************
-//  const modsFn = printMessag(fs);
-const {printMessage} = require("./modules/greeting");
 
-const userName = "XXX777";
-console.log(__dirname + " _it's that!");
-printMessage(userName);
-
-const { oK } = require("./modules/someScript");
-
-oK("oK");
 
 const importantBag={}
 if(importantBag=={}){
@@ -69,7 +59,6 @@ if(importantBag=={}){
   console.log('bag empty');
 }
 const id=['a000','a001','a002','a003','a004','a005','a777','git','nasoberu','test','resume','sweb','blozh'];
-console.log(__dirname);
 
 let x = `${importantBag.id}`;
 const comments = commentsFn(app, jsonParser, cors, fs, id, importantBag);
