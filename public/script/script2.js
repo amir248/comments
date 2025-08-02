@@ -1,9 +1,9 @@
-//let putler='https://nasoberu.mnws.ru/comments/'+`${id}`+'.json/post';
- // const putler='https://qucu.ru/comments/'+`${importantBag.id}`+'.json/post';
 
-const putler='http://localhost:3700/comments/'+`${importantBag.id}`+'.json/post';
+//const puto3='https://qucu.ru/comments/'+`${importantBag.id}`+'.json/post';
+ const puto3='http://localhost:3000/'+`${importantBag.id}`+'.json';
+// const puto3='https://qucu.ru/comments/'+`${importantBag.id}`+'.json/post';
 const form=document.createElement('form');
-form.setAttribute('action',putler);
+form.setAttribute('action',puto3);
 form.setAttribute('method','post');
 form.setAttribute('name','registerForm');
 document.querySelector('#comments').append(form);
@@ -51,6 +51,7 @@ myHeaders.append("Content-Type", "application/json;charset=utf-8");
 let userNameF=registerForm.elements['login'].value;
 let messageF=registerForm.elements['message'].value;
 
+// var urlencoded = new URLSearchParams();
 const user = {
   userName: userNameF,
   message: messageF,
@@ -58,15 +59,13 @@ const user = {
   idea: importantBag
   //.getFullYear()+"/"+new Date().getMonth()+"/"+new Date().getDate()+'---'+new Date().getHours()+':'+new Date().getUTCMinutes()
 }
-// var urlencoded = new URLSearchParams();
 // urlencoded.append("userName", `${user.userName}`);
-
 var requestOptions = {
   mode: "cors", // no-cors, *cors, same-origin
   cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
   credentials: "omit", // include, *same-origin, omit
   redirect: "follow", // manual, *follow, error
-  referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+  referrerPolicy: "origin-when-cross-origin", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -78,29 +77,33 @@ var requestOptions = {
 };
 
 
-fetch(putler, requestOptions)
+fetch(puto3, requestOptions)
 .then(response => response.text())
 .then(result => console.log(result))
 .catch(error => console.log('error', error));
 document.querySelector('#message').value='';
 });//addEventListenerClick
 console.log(importantBag.id);
-// const json ='https://qucu.ru/comments/json/'+`${importantBag.id}`+'.json/allow-cors';
-const json ='http://localhost:3700/comments/json/'+`${importantBag.id}`+'.json/allow-cors';
+
+//const json ='https://qucu.ru/comments/json/'+`${importantBag.id}`+'.json/allow-cors';
+const json ='http://localhost:3000/'+`${importantBag.id}`;
+
 // amir248.github.io/
 async function comments(){
   await fetch(json,{
-    origin: "http://localhost/",
+    // origin: "https://nasobe.ru/",
     method: "POST",
     headers: {
-    'Content-Type': 'application/json; charset=UTF-8'
+    'Content-Type': 'application/json; charset=UTF-8',
+    'Access-Control-Allow-Origin': '*'
   },
   // body: undefined,
-    referrer: "http://localhost/testPage.html",
-    referrerPolicy: "no-referrer",
+    // referrer: "https://nasobe.ru/",
+    referrerPolicy: "origin-when-cross-origin",
     mode:"cors", //CORS - разрешены политикой cors
     credentials: "omit",
     cache: "no-store",
+    body:JSON.stringify(importantBag)
 
 }).then(response=>response.json()).then(message=>{
   let count=message.length;
