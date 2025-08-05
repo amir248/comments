@@ -17,7 +17,7 @@
                 const ip = data.ip;
 
                 // Отправляем IP на сервер
-                return fetch('http://localhost:3000/getIp', {
+                return fetch('https://comments.qucu.ru/getIp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,7 +36,7 @@
             .catch(error => {
                 console.error("Ошибка:", error);
             });
-            console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxx');
+            console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxx' + ip);
             }
             onClicker();
         document.querySelector('button').addEventListener("click",onClicker);

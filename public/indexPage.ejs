@@ -142,13 +142,13 @@
      <a href="https://qucu.ru/comments/" style="font-size: 17px;">https://comments.qucu.ru/</a>
      <script type="text/javascript">
        const site={
-         origin: 'https://comments.qucu.ru/',
-         referrer: "https://comments.qucu.ru/"
+         origin: 'http://localhost:3000/',
+         referrer: "http://localhost:3000/"
        }
        const importantBag={id:"nasoberu",site:window.location};
          // const id='nasoberu';// important!!!
          const script =document.createElement('script');
-         const url ='https://comments.qucu.ru/allow-cors/';
+         const url ='http://localhost:3000/allow-cors/';
          async function goComments(){
            await fetch(url,{
             headers: {

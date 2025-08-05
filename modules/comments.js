@@ -398,7 +398,7 @@ console.log(fileOnPathTwo+" <---fileOnPathTwo 476");
       }else{
         fs.stat('public/json/'+`${importantBag.id}`+'.json',(err,stats)=>{
           if(err){
-            fs.writeFile('public/json/'+`${importantBag.id}`+'.json', '[{"userName":"user"},{"Message","message"},{"date","00:00:00"},{"idea":"oK"}]', function(err){
+            fs.writeFile('public/json/'+`${importantBag.id}`+'.json', '[{"userName":"comments boot","message":"Hi! 😃 worD, this is the first comment!","date":'+ '"' +`${new Date}`+'"'+',"idea":{"id":"id","site":{"href":"localhostBot","origin":"test","protocol":"https:","host":"localhost","hostname":"localhost","port":"undefined","pathname":"oK","search":"","hash":""}}}]', function(err){
               if (err) {console.log(err)} else {console.log("Файл создан")}});
               console.log(err);
             }else{

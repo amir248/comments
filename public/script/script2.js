@@ -51,10 +51,112 @@ myHeaders.append("Content-Type", "application/json;charset=utf-8");
 let userNameF=registerForm.elements['login'].value;
 let messageF=registerForm.elements['message'].value;
 
+let newUser = userNameF.replace(/<\/?script>/g, (match) => {
+  return '&lt;script&gt;';
+})
+ .replace(/<\/?script>/gi, '&lt;script&gt;')
+  .replace(/<\/?style>/gi, '&lt;style&gt;')
+  
+  // Удаляем атрибут onerror и другие опасные атрибуты
+  .replace(/onerror/gi, 'data-onerr0r')
+  .replace(/on\w+/gi, '<span>🙀</span>')  // Удаляем все обработчики событий
+  
+  // Блокируем другие потенциально опасные теги
+  .replace(/(?:applet|base|frame|iframe|object|embed|link|meta|source)/gi, '$1&gt;');
+  
+let newMessages = messageF.replace(/<\/?script>/g, (match) => {
+  return '&lt;script&gt;';
+});
+
+
+// Очищаем сообщение от опасных тегов и атрибутов
+let newMessagesF = messageF
+
+  .replace(/<\/?script>/gi, '&lt;script&gt;')
+  .replace(/<\/?style>/gi, '&lt;style&gt;')
+  
+  // Удаляем атрибут onerror и другие опасные атрибуты
+  .replace(/onerror/gi, '<span>👶</span>')
+  .replace(/on\w+/gi, '<span>🙀</span>')  // Удаляем все обработчики событий
+  
+  // Блокируем другие потенциально опасные теги
+  .replace(/(?:applet|base|frame|iframe|object|embed|link|meta|source)/gi, '$1&gt;');
+
+  // <
+  // &lt;
+  
+  // // Сохраняем безопасные теги
+  // .replace(/<(b|i|u|strong|em|p|br|span|div|a|img)(?:\s+[^>]*)?>/gi, '<$1>')
+  // .replace(/<\/(b|i|u|strong|em|p|br|span|div|a|img)>/gi, '>$1')
+  
+  // // Удаляем оставшиеся опасные теги
+  // .replace(/<[^>]+>/gi, '')
+  // .replace(/<a\s+/gi, '<a ')
+  // .replace(/href=["']?(.*?)["']?/gi, 'href="$1"')
+  // .replace(/<img\s+/gi, '<img ')
+  // .replace(/src=["']?(.*?)["']?/gi, 'src="$1"');
+
+// function getIp(){
+// fetch('https://api.ipify.org?format=json')
+//   .then(response => response.json())
+//   .then(data =>{data.ip
+//     let ip=data.ip;
+//     return `${ip}`;
+//   });
+// }
+// Функция для получения IP-адреса
+async function getIp() {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip
+    } catch (error) {
+        console.error('Ошибка получения IP:', error);
+        return 'Не удалось получить IP';
+    }
+}
+ // Получаем IP
+ console.log(getIp());
+    const ip = getIp();
+console.log(ip);
+function onClicker(){
+  fetch('https://api.ipify.org?format=json')
+  .then(response => response.json())
+  .then(data => {
+    const d =new Date();
+      const ip = [data.ip , location.href , new Date()];
+
+      // Отправляем IP на сервер
+      return fetch('http://localhost:3000/getIp', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({ ip: ip })
+      });
+  })
+  .then(response => {
+      if (!response.ok) throw new Error("Ошибка отправки IP");
+      return response.text(); // или .json(), если сервер возвращает JSON
+  })
+  .then(result => {
+      console.log("Ответ сервера:", result);
+  })
+  .catch(error => {
+      console.error("Ошибка:", error);
+  });
+  console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxx' );
+  }
+  onClicker();
+      
+
 // var urlencoded = new URLSearchParams();
 const user = {
-  userName: userNameF,
-  message: messageF,
+  userName: newUser,
+  // message: messageF,
+  message: newMessagesF,
+  // message: newMessages,
   date : new Date(),
   idea: importantBag
   //.getFullYear()+"/"+new Date().getMonth()+"/"+new Date().getDate()+'---'+new Date().getHours()+':'+new Date().getUTCMinutes()
@@ -68,7 +170,8 @@ var requestOptions = {
   referrerPolicy: "origin-when-cross-origin", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
   },
 
   body:JSON.stringify(user),

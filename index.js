@@ -18,7 +18,9 @@ app.use(express.static('public'));
 app.get('/', (request, response) => {
   response.render('indexPage', { title: 'My Express App', text: 'Hello from comments from NODE.JS!' });
 });
-
+app.get('/onclicker',(request,response)=>{
+  response.render('onclicker',{oK: 'onClick'});
+});
 
 const registerUrl=['http://192.168.1.101','https://comments.qucu.ru/','http://192.168.1.104:3700/','https://amir248.github.io','http://localhost'];
 app.use(cors({
@@ -27,6 +29,12 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
+app.post("/getIp",jsonParser,(request,response)=>{
+  console.log("getIP getIp <----------------------------------------------")
+  console.log(request.body);
+  let writesFile=request.body;
+  fs.appendFileSync("public/json/ip.js", `${JSON.stringify(writesFile)}`+"\n");
+});
 
 app.post('/allow-cors',jsonParser,cors(),(request,response)=>{
     console.log(__dirname);
@@ -34,7 +42,7 @@ app.post('/allow-cors',jsonParser,cors(),(request,response)=>{
     // console.log(request);
     // console.log(response);
   if (!request.body) return response.sendStatus(400);
-  let scriptComments=fs.readFileSync('public/script/script.js',"utf8",
+  let scriptComments=fs.readFileSync('public/script/script2.js',"utf8",
   (error,data)=>{
     console.log("Async read file script.js");
     if(error) throw error;
@@ -44,7 +52,7 @@ app.post('/allow-cors',jsonParser,cors(),(request,response)=>{
   // console.log(scriptComments);
 });// SCRIPT JS
 
-
+console.log('oooooooooK');
 //******************************************************************************************************************
 // ----------------------------BOX comments system------------
 // *******************************************************************************************************************
@@ -62,25 +70,11 @@ const id=['a000','a001','a002','a003','a004','a005','a777','git','nasoberu','tes
 
 let x = `${importantBag.id}`;
 const comments = commentsFn(app, jsonParser, cors, fs, id, importantBag);
+for(let i=0; i<id.length;i++){
+  console.log(i);
+  comments(i);
+}
 
-comments(0);
-comments(1);
-comments(2);
-comments(3);
-comments(4);
-comments(5);
-comments(6);
-comments(7);
-comments(8);
-comments(9);
-comments(10);
-comments(11);
-comments(12);
-comments(13);
-comments(14);
-comments(15);
-comments(16);
-comments(17);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
