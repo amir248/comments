@@ -39,7 +39,9 @@ document.querySelector('#start').addEventListener('DOMContentLoaded',()=>{
   document.querySelector('#start').disabled=true;
 });
 
-
+window.onerror = function () {
+  return true; // подавляет вывод ошибки в консоль
+};
 document.querySelector('#start').addEventListener('click',()=>{
   keyTestSubject();// don't work!!!!
   // keyDown();// don't work!!!!
@@ -51,7 +53,14 @@ myHeaders.append("Content-Type", "application/json;charset=utf-8");
 let userNameF=registerForm.elements['login'].value;
 let messageF=registerForm.elements['message'].value;
 
-let newUser = userNameF.replace(/<\/?script>/g, (match) => {
+let newUser = DOMPurify.sanitize(userNameF, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
+let newMessagesF = DOMPurify.sanitize(messageF, {
+  ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
+  ALLOWED_ATTR: ['href', 'target']
+});
+
+
+let newUserOld = userNameF.replace(/<\/?script>/g, (match) => {
   return '&lt;script&gt;';
 })
  .replace(/<\/?script>/gi, '&lt;script&gt;')
@@ -70,7 +79,7 @@ let newMessages = messageF.replace(/<\/?script>/g, (match) => {
 
 
 // Очищаем сообщение от опасных тегов и атрибутов
-let newMessagesF = messageF
+let newMessagesF_OLD = messageF
 
   .replace(/<\/?script>/gi, '&lt;script&gt;')
   .replace(/<\/?style>/gi, '&lt;style&gt;')
@@ -123,7 +132,6 @@ function onClicker(){
   fetch('https://api.ipify.org?format=json')
   .then(response => response.json())
   .then(data => {
-    const d =new Date();
       const ip = [data.ip , location.href , new Date()];
 
       // Отправляем IP на сервер

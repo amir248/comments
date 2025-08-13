@@ -41,7 +41,7 @@
   }
   }
   </script>
-   
+   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.min.js"></script>
     <style media="screen">
       *{
         margin:0;
@@ -142,25 +142,24 @@
      <a href="https://qucu.ru/comments/" style="font-size: 17px;">https://comments.qucu.ru/</a>
      <script type="text/javascript">
        const site={
-         origin: 'http://localhost:3000/',
-         referrer: "http://localhost:3000/"
+         origin: 'http://localhost:3007/',
+         referrer: "http://localhost:3007/"
        }
        const importantBag={id:"nasoberu",site:window.location};
          // const id='nasoberu';// important!!!
          const script =document.createElement('script');
-         const url ='http://localhost:3000/allow-cors/';
+         const url ='http://localhost:3007/allow-cors/';
          async function goComments(){
            await fetch(url,{
             headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Content-Type': 'application/json'
             },
-             origin:site.origin,
+            //  origin:site.origin,
              method: "POST",
-             referrer: site.referrer,
+            //  referrer: site.referrer,
              referrerPolicy: "origin-when-cross-origin",
              mode:"cors",
-             credentials: "omit",
+             credentials: "include",
              cache: "no-store",
            }).then(response=>response.text()).then(result=>{
              document.querySelector('#comments').append(script);

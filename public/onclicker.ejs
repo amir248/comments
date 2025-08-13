@@ -18,11 +18,10 @@
                 const ip = data.ip;
 
                 // Отправляем IP на сервер
-                return fetch('http://localhost:3000/getIp', {
+                return fetch('https://comments.qucu.ru/getIp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
                 },
                 body: JSON.stringify({ ip: ip })
                 });
